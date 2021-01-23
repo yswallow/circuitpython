@@ -15,7 +15,7 @@ USB_SERIAL_NUMBER_LENGTH = 16
 LONGINT_IMPL = MPZ
 
 # The ?='s allow overriding in mpconfigboard.mk.
-
+CIRCUITPY_ALARM = 1
 # Audio via PWM
 CIRCUITPY_AUDIOIO = 0
 CIRCUITPY_AUDIOBUSIO ?= 1
