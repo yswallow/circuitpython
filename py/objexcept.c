@@ -320,7 +320,7 @@ MP_DEFINE_EXCEPTION(Exception, BaseException)
     //TODO: Implement more UnicodeError subclasses which take arguments
 #endif
 #if CIRCUITPY_ALARM
-    MP_DEFINE_EXCEPTION(DeepSleepRequest, BaseException)
+    MP_DEFINE_EXCEPTION(DeepSleepRequestError, BaseException)
 #endif
     MP_DEFINE_EXCEPTION(MpyError, ValueError)
   /*

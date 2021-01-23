@@ -133,7 +133,7 @@ STATIC int parse_compile_execute(const void *source, mp_parse_input_kind_t input
             // at the moment, the value of SystemExit is unused
             ret = pyexec_system_exit;
 #if CIRCUITPY_ALARM
-        } else if (mp_obj_is_subclass_fast(mp_obj_get_type((mp_obj_t)nlr.ret_val), &mp_type_DeepSleepRequest)) {
+        } else if (mp_obj_is_subclass_fast(mp_obj_get_type((mp_obj_t)nlr.ret_val), &mp_type_DeepSleepRequestError)) {
             ret = PYEXEC_DEEP_SLEEP;
 #endif
         } else {
