@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Scott Shawcroft
+ * Copyright (c) 2017 Scott Shawcroft for Adafruit Industries
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,39 +24,33 @@
  * THE SOFTWARE.
  */
 
-#ifndef MICROPY_INCLUDED_NRF_COMMON_HAL_MICROCONTROLLER_PIN_H
-#define MICROPY_INCLUDED_NRF_COMMON_HAL_MICROCONTROLLER_PIN_H
+#include "supervisor/board.h"
+#include "nrfx/hal/nrf_gpio.h"
+#include "common-hal/microcontroller/Pin.h"
 
-#include "py/mphal.h"
-
-#include "peripherals/nrf/pins.h"
-
-#ifdef MICROPY_HW_NEOPIXEL
-extern bool neopixel_in_use;
-#endif
-#ifdef MICROPY_HW_APA102_MOSI
-extern bool apa102_sck_in_use;
-extern bool apa102_mosi_in_use;
-#endif
-
-void mcu_pin_vars_init(void);
-void reset_all_pins(void);
-// reset_pin_number takes the pin number instead of the pointer so that objects don't
-// need to store a full pointer.
-void reset_pin_number(uint8_t pin);
-void claim_pin(const mcu_pin_obj_t* pin);
-bool pin_number_is_free(uint8_t pin_number);
-void never_reset_pin_number(uint8_t pin_number);
-
-// Lower 5 bits of a pin number are the pin number in a port.
-// upper bits (just one bit for current chips) is port number.
-
-static inline uint8_t nrf_pin_port(uint8_t absolute_pin) {
-    return absolute_pin >> 5;
+void board_init(void) {
+  mcu_pin_vars_init();
+  //reset_all_pins();
 }
 
-static inline uint8_t nrf_relative_pin_number(uint8_t absolute_pin) {
-    return absolute_pin & 0x1f;
+bool board_requests_safe_mode(void) {
+  return false;
 }
 
-#endif // MICROPY_INCLUDED_NRF_COMMON_HAL_MICROCONTROLLER_PIN_H
+void reset_board(void) {
+
+}
+
+void board_deinit(void) {
+
+}
+
+#define ROW_COUNT 4
+#define ROW_PINS {NRF_GPIO_PIN_MAP(1,0), NRF_GPIO_PIN_MAP(0,24), NRF_GPIO_PIN_MAP(0,22), NRF_GPIO_PIN_MAP(0,20)}
+void board_before_deep_sleep(void) {
+  uint32_t row_pins[ROW_COUNT] = ROW_PINS;
+  for(uint8_t i=0;i<ROW_COUNT;i++) {
+    nrf_gpio_cfg_output(row_pins[i]);
+    nrf_gpio_pin_clear(row_pins[i]);
+  }
+}

@@ -3,7 +3,8 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Scott Shawcroft
+ * Copyright (c) 2016 Glenn Ruben Bakke
+ *
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,39 +25,12 @@
  * THE SOFTWARE.
  */
 
-#ifndef MICROPY_INCLUDED_NRF_COMMON_HAL_MICROCONTROLLER_PIN_H
-#define MICROPY_INCLUDED_NRF_COMMON_HAL_MICROCONTROLLER_PIN_H
+#include "nrfx/hal/nrf_gpio.h"
 
-#include "py/mphal.h"
+#define MICROPY_HW_BOARD_NAME       "Minew MS88SF2"
+#define MICROPY_HW_MCU_NAME         "nRF52840"
 
-#include "peripherals/nrf/pins.h"
+#define MICROPY_HW_LED_STATUS       (&pin_P0_13)
+#define MICROPY_HW_NEOPIXEL         (&pin_P0_10)
 
-#ifdef MICROPY_HW_NEOPIXEL
-extern bool neopixel_in_use;
-#endif
-#ifdef MICROPY_HW_APA102_MOSI
-extern bool apa102_sck_in_use;
-extern bool apa102_mosi_in_use;
-#endif
-
-void mcu_pin_vars_init(void);
-void reset_all_pins(void);
-// reset_pin_number takes the pin number instead of the pointer so that objects don't
-// need to store a full pointer.
-void reset_pin_number(uint8_t pin);
-void claim_pin(const mcu_pin_obj_t* pin);
-bool pin_number_is_free(uint8_t pin_number);
-void never_reset_pin_number(uint8_t pin_number);
-
-// Lower 5 bits of a pin number are the pin number in a port.
-// upper bits (just one bit for current chips) is port number.
-
-static inline uint8_t nrf_pin_port(uint8_t absolute_pin) {
-    return absolute_pin >> 5;
-}
-
-static inline uint8_t nrf_relative_pin_number(uint8_t absolute_pin) {
-    return absolute_pin & 0x1f;
-}
-
-#endif // MICROPY_INCLUDED_NRF_COMMON_HAL_MICROCONTROLLER_PIN_H
+#define BOARD_HAS_CRYSTAL 1

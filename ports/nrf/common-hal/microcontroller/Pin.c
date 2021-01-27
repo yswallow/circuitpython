@@ -48,6 +48,13 @@ bool speaker_enable_in_use;
 STATIC uint32_t claimed_pins[GPIO_COUNT];
 STATIC uint32_t never_reset_pins[GPIO_COUNT];
 
+void mcu_pin_vars_init(void) {
+    for(uint8_t i=0; i<GPIO_COUNT; i++) {
+        claimed_pins[i] = 0;
+        never_reset_pins[i] = 0;
+    }
+}
+
 STATIC void reset_speaker_enable_pin(void) {
 #ifdef SPEAKER_ENABLE_PIN
     speaker_enable_in_use = false;

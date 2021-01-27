@@ -133,7 +133,7 @@ safe_mode_t port_init(void) {
 
     nrfx_power_pofwarn_config_t power_failure_config;
     power_failure_config.handler = power_warning_handler;
-    power_failure_config.thr = NRF_POWER_POFTHR_V27;
+    power_failure_config.thr = NRF_POWER_POFTHR_V20;
     #if NRF_POWER_HAS_VDDH
     power_failure_config.thrvddh = NRF_POWER_POFTHRVDDH_V27;
     #endif

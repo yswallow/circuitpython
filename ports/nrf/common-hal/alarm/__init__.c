@@ -40,7 +40,7 @@
 
 #include "supervisor/port.h"
 #include "supervisor/shared/workflow.h"
-
+#include "supervisor/board.h"
 
 //#include "components/driver/include/driver/uart.h"
 
@@ -144,7 +144,7 @@ void common_hal_alarm_set_deep_sleep_alarms(size_t n_alarms, const mp_obj_t *ala
 //modified
 void alarm_enter_deep_sleep(void) {
     alarm_pin_pinalarm_prepare_for_deep_sleep();
-    
+    board_before_deep_sleep();
     //nrf_power_system_off(NRF_POWER);
     sd_nvic_EnableIRQ(NRFX_GPIOTE_CONFIG_IRQ_PRIORITY);
     NRFX_IRQ_ENABLE(NRFX_GPIOTE_CONFIG_IRQ_PRIORITY);
